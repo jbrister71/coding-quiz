@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,19 +15,20 @@
         <div class="timer">Clock Stopped</div>
     </header>
     <main>
-        <h1 class="questions">Coding Quiz!</h1>
-        <div class="answers">
-            <p>
+        <h1 class="questions" id="questions">Coding Quiz!</h1>
+        <div class="answers" id="answers">
+            <p id="quiz-info">
                 Answer the questions within the time limit. Getting an answer right will add time to the clock. 
                 Getting an answer wrong will subtract time from the clock. 
             </p>    
-            <p>    
+            <p id="quiz-info">    
                 Time begins at 60 seconds once the start button is clicked.
                 Good luck!
             </p>
+        </div id="#start-container">
+            <button class="start-btn" id="start-btn">Start Quiz!</button>
         </div>
-        <button class="start-btn">Start Quiz!</button>
     </main>
-    
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>
