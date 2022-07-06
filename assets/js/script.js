@@ -31,8 +31,13 @@ answerContainerEl = document.getElementById("answers");
 var question = document.getElementById("questions");
 
 var questionCounter;
+var timer = 0;
+numQuestions = 5;
+var interval;
+var clock = document.querySelector("#timer");
 
 var startQuiz = function() {
+    startTimer();
     questionCounter = 0;
     startBtnEl.remove();
     document.getElementById("quiz-info").remove();
@@ -47,7 +52,7 @@ var createQuestion = function() {
     var answerListEl = document.createElement("div");
     answerListEl.className = "answer-list";
 
-    for(var i = 0; i < 4; i++) {
+    for(var i = 0; i < numQuestions-1; i++) {
         var answerBtnEl = document.createElement("button");
         answerBtnEl.className = "answer-btn";
         answerBtnEl.setAttribute("data-answer-id", i);
@@ -61,8 +66,10 @@ var checkAnswer = function(event) {
     var answerId = event.target.getAttribute("data-answer-id");
     if(answerId === correctAnswers[questionCounter]) {
         console.log("Correct");
+        timer += 10;
+        checkTimeUp();
         displayAccuracy(true);
-        if(questionCounter < 4) {
+        if(questionCounter < numQuestions-1) {
             questionCounter++;
             document.querySelector(".answer-list").remove();
             createQuestion();
@@ -70,8 +77,10 @@ var checkAnswer = function(event) {
     }
     else {
         console.log("Incorrect");
+        timer -= 20;
+        checkTimeUp();
         displayAccuracy(false);
-        if(questionCounter < 4) {
+        if(questionCounter < numQuestions-1) {
             questionCounter++;
             document.querySelector(".answer-list").remove();
             createQuestion();
@@ -95,6 +104,27 @@ var displayAccuracy = function(correct) {
         clearTimeout(this);
     }
     setTimeout(removeAccuracy, 1000);
+}
+
+var startTimer = function() {
+    timer = 60;
+    clock.textContent = "Time: " + timer;
+    var timerCount = function() {
+        timer--;
+        checkTimeUp();
+    }
+    interval = setInterval(timerCount, 1000);
+}
+
+var checkTimeUp = function() {
+    if(timer <= 0) {
+        timer = 0;
+        clock.textContent = "Time's up!";
+        clearInterval(interval);
+    }
+    else {
+        clock.textContent = "Time: " + timer;
+    }
 }
 
 startBtnEl.addEventListener("click", startQuiz);
