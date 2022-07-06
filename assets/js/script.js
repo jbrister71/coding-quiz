@@ -25,6 +25,7 @@ var correctAnswers = [
     "0", "1", "2", "3", "0"
 ];
 
+startContainerEl = document.querySelector("#start-container");
 startBtnEl = document.querySelector("#start-btn");
 answerContainerEl = document.getElementById("answers");
 var question = document.getElementById("questions");
@@ -60,6 +61,7 @@ var checkAnswer = function(event) {
     var answerId = event.target.getAttribute("data-answer-id");
     if(answerId === correctAnswers[questionCounter]) {
         console.log("Correct");
+        displayAccuracy(true);
         if(questionCounter < 4) {
             questionCounter++;
             document.querySelector(".answer-list").remove();
@@ -68,12 +70,31 @@ var checkAnswer = function(event) {
     }
     else {
         console.log("Incorrect");
+        displayAccuracy(false);
         if(questionCounter < 4) {
             questionCounter++;
             document.querySelector(".answer-list").remove();
             createQuestion();
         }
     }
+};
+
+var displayAccuracy = function(correct) {
+    accuracyInfoEl = document.createElement("p")
+    
+    if(correct) {
+        accuracyInfoEl.textContent = "Correct! +10 seconds"
+    }
+    else {
+        accuracyInfoEl.textContent = "Incorrect... -20 seconds"
+    }
+
+    startContainerEl.appendChild(accuracyInfoEl);
+    var removeAccuracy = function() {
+        accuracyInfoEl.remove();
+        clearTimeout(this);
+    }
+    setTimeout(removeAccuracy, 1000);
 }
 
 startBtnEl.addEventListener("click", startQuiz);
