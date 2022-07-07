@@ -1,28 +1,28 @@
 var questions = [
-    "What's the first answer?",
-    "What's the second answer?",
-    "What's the third answer?",
-    "What's the fourth answer?",
-    "What was the answer to the first question?"
+    "What does HTML stand for?",
+    "What's the main difference between local storage and session storage?",
+    "What number do arrays start at in Javascript?",
+    "What term is used for joining two strings?",
+    "What term is used for a loop inside of another loop?"
 ];
 
 var answers = [
     [
-        "A", "A", "A", "A", "A"
+        "Highly Textual Middle Language", "Local storage is on your machine. Session storage is online.", "0", "adding", "doubled"
     ],
     [
-        "B", "B", "B", "B", "B"
+        "Hypertext Markup Language", "Local storage and session storage are the same thing.", "1", "glueing", "scoped"
     ],
     [
-        "C", "C", "C", "C", "C"
+        "Hidden Timely Mixup Language", "When the browser is closed, local storage persists and session storage is cleared.", "-1", "stapling", "nested"
     ],
     [
-        "D", "D", "D", "D", "D"
+        "Higher Tab Made-up Language", "Local storage is used by javascript. Session storage is used by HTML.", "Whatever you want", "concatenating", "too many"
     ]
 ];
 
 var correctAnswers = [
-    "0", "1", "2", "3", "0"
+    "1", "2", "0", "3", "2"
 ];
 
 startContainerEl = document.querySelector("#start-container");

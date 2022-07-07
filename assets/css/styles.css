@@ -21,3 +21,8 @@ main {
 .questions {
     flex: 1 100%;
 }
+
+.answer-list {
+    display: flex;
+    flex-direction: column;
+}
