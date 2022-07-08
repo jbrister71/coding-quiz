@@ -49,7 +49,6 @@ var startQuiz = function() {
     questionCounter = 0;
     startBtnEl.remove();
     removeChildElements(answerContainerEl);
-    console.log("Quiz started");
     createQuestion();
 };
 
@@ -73,7 +72,6 @@ var checkAnswer = function(event) {
     if(event.target.className === "btn answer-btn") {
         var answerId = event.target.getAttribute("data-answer-id");
         if(answerId === correctAnswers[questionCounter]) {
-            console.log("Correct");
             timer += 10;
             checkTimeUp();
             displayAccuracy(true);
@@ -87,7 +85,6 @@ var checkAnswer = function(event) {
             }
         }
         else {
-            console.log("Incorrect");
             timer -= 20;
             checkTimeUp();
             displayAccuracy(false);
@@ -172,7 +169,6 @@ var endQuiz = function() {
 
 var saveHighScore = function(event) {
     if(event.target.matches(".submit-btn")) {
-        console.log("we got here");
         if(formInputEl.value) {
             var highScoreObj = {
                 initials: document.querySelector(".submit-input").value,
@@ -185,11 +181,14 @@ var saveHighScore = function(event) {
                 highScoreList.push(highScoreObj);
             }
             localStorage.setItem("scores", JSON.stringify(highScoreList));
-        }
 
-        question.textContent = "Thanks for playing!";
-        removeChildElements(answerContainerEl);
-        startContainerEl.appendChild(startBtnEl);
+            question.textContent = "Thanks for playing!";
+            removeChildElements(answerContainerEl);
+            startContainerEl.appendChild(startBtnEl);
+        }
+        else {
+            window.alert("You need to enter your initials to save your score!");
+        }
     }
 };
 
@@ -215,8 +214,13 @@ var displayHighScores = function() {
     }
     else {
         for(var i = 0; i < highScoreList.length; i++) {
-            console.log(highScoreList[i]);
             highScoreLi = document.createElement("li");
+            if(i % 2 === 0) {
+                highScoreLi.className = "high-score-li li-1";
+            }
+            else {
+                highScoreLi.className = "high-score-li li-2";
+            }
             highScoreLi.textContent = highScoreList[i].initials + ": " + highScoreList[i].score;
             highScoreOl.appendChild(highScoreLi);
         }
