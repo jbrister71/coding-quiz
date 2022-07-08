@@ -25,6 +25,8 @@ var correctAnswers = [
     "1", "2", "0", "3", "2"
 ];
 
+var quizInfo1 = document.getElementById("quiz-info-1");
+var quizInfo2 = document.getElementById("quiz-info-2");
 startContainerEl = document.querySelector("#start-container");
 startBtnEl = document.querySelector("#start-btn");
 answerContainerEl = document.getElementById("answers");
@@ -33,6 +35,7 @@ var formContainerEl;
 var formInputEl;
 var formInfoEl;
 var formButtonEl;
+var highScoreLinkEl = document.getElementById("high-score-link");
 
 var questionCounter;
 var timer = 0;
@@ -45,8 +48,7 @@ var startQuiz = function() {
     startTimer();
     questionCounter = 0;
     startBtnEl.remove();
-    document.getElementById("quiz-info").remove();
-    document.getElementById("quiz-info").remove();
+    removeChildElements(answerContainerEl);
     console.log("Quiz started");
     createQuestion();
 };
@@ -59,7 +61,7 @@ var createQuestion = function() {
 
     for(var i = 0; i < numQuestions-1; i++) {
         var answerBtnEl = document.createElement("button");
-        answerBtnEl.className = "answer-btn";
+        answerBtnEl.className = "btn answer-btn";
         answerBtnEl.setAttribute("data-answer-id", i);
         answerBtnEl.textContent = answers[i][questionCounter];
         answerListEl.appendChild(answerBtnEl);
@@ -68,7 +70,7 @@ var createQuestion = function() {
 };
 
 var checkAnswer = function(event) {
-    if(event.target.className === "answer-btn") {
+    if(event.target.className === "btn answer-btn") {
         var answerId = event.target.getAttribute("data-answer-id");
         if(answerId === correctAnswers[questionCounter]) {
             console.log("Correct");
@@ -157,7 +159,7 @@ var endQuiz = function() {
     formInputEl = document.createElement("input")
     formButtonEl = document.createElement("button");
     formInputEl.className = "submit-input";
-    formButtonEl.className = "submit-btn";
+    formButtonEl.className = "btn submit-btn";
     formButtonEl.textContent = "Submit";
 
     formInfoEl.textContent = "Enter your initials: ";
@@ -176,9 +178,18 @@ var saveHighScore = function(event) {
                 initials: document.querySelector(".submit-input").value,
                 score: timer
             };
-            highScoreList.push(highScoreObj);
+            if(highScoreList === null) {
+                highScoreList = [highScoreObj];
+            }
+            else {
+                highScoreList.push(highScoreObj);
+            }
             localStorage.setItem("scores", JSON.stringify(highScoreList));
         }
+
+        question.textContent = "Thanks for playing!";
+        removeChildElements(answerContainerEl);
+        startContainerEl.appendChild(startBtnEl);
     }
 };
 
@@ -187,13 +198,81 @@ var loadHighScores = function() {
     highScoreList = JSON.parse(highScoreStr);
 }
 
+var displayHighScores = function() {
+    if (timer != 0) {
+        clearInterval(interval);
+        timer = 0;
+        clock.textContent = "Clock Stopped";
+    }
+    removeChildElements(answerContainerEl);
+    removeChildElements(startContainerEl);
+    question.textContent = "High Scores"
+
+    var highScoreOl = document.createElement("ol");
+    var highScoreLi;
+    if(highScoreList === null) {
+        displayNoScores();
+    }
+    else {
+        for(var i = 0; i < highScoreList.length; i++) {
+            console.log(highScoreList[i]);
+            highScoreLi = document.createElement("li");
+            highScoreLi.textContent = highScoreList[i].initials + ": " + highScoreList[i].score;
+            highScoreOl.appendChild(highScoreLi);
+        }
+        answerContainerEl.appendChild(highScoreOl);
+    }
+    
+
+    var returnBtnEl = document.createElement("button");
+    returnBtnEl.className = "btn return-btn";
+    returnBtnEl.textContent = "Return to Quiz";
+    startContainerEl.appendChild(returnBtnEl);
+
+    var clearBtnEl = document.createElement("button");
+    clearBtnEl.className = "btn clear-btn";
+    clearBtnEl.textContent = "Clear High Scores";
+    startContainerEl.appendChild(clearBtnEl);
+}
+
 var removeChildElements = function(element) {
     while(element.firstChild) {
         element.removeChild(element.firstChild);
     }
 };
 
+var returnToQuiz = function(event) {
+    if(event.target.matches(".return-btn")) {
+        removeChildElements(answerContainerEl);
+        removeChildElements(startContainerEl);
+        question.textContent = "Coding Quiz!";
+
+        answerContainerEl.appendChild(quizInfo1);
+        answerContainerEl.appendChild(quizInfo2);
+
+        startContainerEl.appendChild(startBtnEl);
+    }
+}
+
+var clearHighScores = function(event) {
+    if(event.target.matches(".clear-btn")) {
+        highScoreList = [];
+        localStorage.clear();
+        removeChildElements(answerContainerEl);
+        displayNoScores();
+    }
+}
+
+var displayNoScores = function() {
+    var noScoreInfoEl = document.createElement("p");
+    noScoreInfoEl.textContent = "No scores to display."
+    answerContainerEl.appendChild(noScoreInfoEl);
+}
+
 startBtnEl.addEventListener("click", startQuiz);
 answerContainerEl.addEventListener("click", checkAnswer);
 answerContainerEl.addEventListener("click", saveHighScore);
+highScoreLinkEl.addEventListener("click", displayHighScores);
+startContainerEl.addEventListener("click", returnToQuiz);
+startContainerEl.addEventListener("click", clearHighScores);
 loadHighScores();
