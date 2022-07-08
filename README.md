@@ -8,6 +8,9 @@ Once the quiz is over, you can save your high score. High scores can be displaye
 ## Built With
 HTML, CSS, Javascript
 
+## Screenshot of application
+[Link to Screenshot](./assets/images/screenshot.png)
+
 ## Link to application
 [Link to application](https://jbrister71.github.io/coding-quiz/)
 
