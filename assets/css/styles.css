@@ -3,8 +3,9 @@ header {
     justify-content: space-between;
 }
 
-nav {
-    margin-top: 20px;
+.high-score-link {
+    padding: 0;
+    color: purple;
 }
 
 .timer {
@@ -22,7 +23,31 @@ main {
     flex: 1 100%;
 }
 
+.high-score-li {
+    padding: 5px;
+}
+
+.li-1 {
+    background-color: lightgray;
+}
+
+.li-2 {
+    background-color: gray;
+}
+
+.quiz-info {
+    text-align: center;
+}
+
 .answer-list {
     display: flex;
     flex-direction: column;
+}
+
+.btn {
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: rgb(6, 6, 61);
+    color: white;
+    border-radius: 5px;
 }
